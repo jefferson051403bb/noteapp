@@ -1,0 +1,265 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+::selection {
+  color: #000;
+  background: #fff;
+}
+nav {
+  box-shadow: 0 3px 8px #0000001e;
+  left: 0;
+  top: 0;
+  position: fixed;
+  background-color: #D20062;
+  width: 100%;
+  padding: 10px 0;
+  z-index: 12;
+}
+.onlinenotes{
+
+  position: absolute;
+  top: 15px;
+  left: 140px;
+
+}
+nav .menu {
+  max-width:auto;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  color: #fff;
+}
+.menu .logo a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 35px;
+  font-weight: 600;
+}
+.menu ul {
+  display: flex;
+  text-align: center;
+  justify-content: right;
+}
+.menu ul li {
+  list-style: none;
+  margin-left: 7px;
+}
+.menu ul li:first-child {
+  margin-left: 0px;
+}
+.menu ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 500;
+  margin: 10px;
+  border-radius: 5px;
+  padding: 5px;
+  transition: all 0.1s ease;
+}
+
+.butt{ 
+
+  display: flex;
+  text-align: center;
+  justify-content: center;
+
+}
+
+.menu ul li a.active,
+.menu ul li a:hover {
+  background: #fff;
+  color: black;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  /* box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.5); */
+}
+
+body {
+  background-color: #D20062;
+  padding: 20px;
+}
+
+.left {
+  text-align: center;
+  width: 100%;
+}
+
+
+form {
+  max-width: 450px;
+  margin: 0 auto;
+  padding: 20px;
+  border: none;
+  border-radius: 20px;
+  background-color: #f0328a;
+  margin-top: 100px;
+  box-shadow: 0 5px 10px #0000001e;
+}
+h1{
+
+  color: #f7dcff;
+  font-size: 40px;
+  text-align: center;
+
+}
+
+h6{
+  font-family: Arial, sans-serif;
+  font-size: 15px;
+  text-align: center;
+  color: #f7dcff;
+  padding-bottom: 10px;
+  margin-left: 5px;
+  margin-top: -30px;
+}
+
+h5{
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  color: #f7dcff;
+  margin-left: 5px;
+  margin-top: 20px;
+  padding-bottom: -20px;
+  text-align: center;
+}
+p {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  color: aliceblue;
+}
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="password2"]
+/* input[type="file"]*/ {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #0a0a0a;
+  border-radius: 20px;
+  box-sizing: border-box;
+  outline: none;
+  box-shadow: none;
+}
+label[for="name"],
+label[for="email"],
+label[for="password"],
+label[for="photo"]
+{
+color: #fff;
+}
+
+button {
+  background-color: rgb(179, 6, 86); 
+  color: #f7dcff;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 14px 20px;
+  margin: 8px 0;
+  box-shadow: 10px 10px 20px 0 rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #D20062;
+}
+.img {
+  background-repeat: no-repeat;
+  width: 100%;
+  background-size: cover;
+  background-position: center;
+  position: absolute;
+}
+.img::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+}
+.center {
+  position: absolute;
+  top: 52%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  padding: 0 20px;
+  text-align: center;
+}
+.center .title {
+  color: #fff;
+  font-size: 55px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.center.p {
+  text-align: center;
+  text-decoration: aliceblue;
+}
+.center .btns {
+  margin-top: 20px;
+}
+.center .btns button {
+  height: 55px;
+  width: 170px;
+  border-radius: 5px;
+  border: none;
+  margin: 0 10px;
+  border: 2px solid white;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 0 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+}
+.center .btns {
+  margin-top: 20px;
+}
+.center .btns button {
+  height: 55px;
+  width: 170px;
+  border-radius: 5px;
+  border: none;
+  margin: 0 10px;
+  border: 2px solid white;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 0 10px;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+.center .btns button:first-child {
+  color: #fff;
+  background: none;
+}
+.btns button:first-child:hover {
+  background: white;
+  color: black;
+}
+.s{
+
+  display: flex;
+  text-align: center;
+  justify-content: center;
+
+}
