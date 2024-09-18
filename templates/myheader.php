@@ -19,7 +19,7 @@
         <h2 class="onlinenotes">NOTE APP</h2>
 </div>
       <ul>
-          <li><a href="home.php" class="nav-link">Home</a></li>
+          <li><a href="" class="nav-link">Home</a></li>
           <li><a href="about-us.php" class="nav-link">About</a></li>
           <div class="butt">
           <li><a href="register.php" class="nav-link">REGISTER</a></li>
