@@ -1,40 +1,50 @@
 <?php
-session_start();
+include 'db_connectors.php';
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-include_once 'db_connectors.php';
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $photo = $_FILES['photo']['tmp_name']; // Assuming the file input field is named 'photo'
 
+    // Sanitize inputs
+    $name = htmlspecialchars($name);
+    $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+    $password = password_hash($password, PASSWORD_DEFAULT);
 
-if (!isset($_SESSION['user_id'])) {
-    echo "User is not logged in";
-    exit(); 
-}
-
-
-$title = $_POST['noteTitle'];
-$content = $_POST['noteContent'];
-$user_id = $_SESSION['user_id']; 
-
-try {
-  
-    $conn = connectDB();
-
-  
-    $stmt = $conn->prepare("INSERT INTO notes (title, content, u_id) VALUES (?, ?, ?)");
-    $stmt->execute([$title, $content, $user_id]);
-
-    if ($stmt->rowCount() > 0) {
-        $_SESSION['note_insert_message'] = "Note inserted successfully";
-        header("Location: ../dashboard.php");
-    } else {
-        $_SESSION['note_insert_message'] = "Failed to insert note";
+    // Check if a file is uploaded
+    if (!empty($photo)) {
+        // Read the file content
+        $photoContent = file_get_contents($photo);
     }
 
- 
-    $conn = null;
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
+    $conn = connectDB(); // Connect to the database
+
+    $sql = "INSERT INTO users (name, email, password, photo) VALUES (?, ?, ?, ?)";
+
+    // Prepare the SQL statement
+    $stmt = $conn->prepare($sql);
+    
+    if ($stmt === false) {
+        die('Prepare failed: ' . $conn->error);
+    }
+
+    // Bind parameters to the statement (use 's' for string, 'b' for blob)
+    $stmt->bind_param("ssss", $name, $email, $password, $photoContent); // 'ssss' means four strings
+
+    // Execute the statement
+    if ($stmt->execute()) {
+        // Success: Redirect to the signin page
+        header("Location: ../signin.php?action=register_success");
+        exit();
+    } else {
+        // Error occurred
+        echo "Error: " . $stmt->error;
+    }
+
+    // Close the statement and connection
+    $stmt->close();
+    $conn->close();
 }
 ?>
-
-
