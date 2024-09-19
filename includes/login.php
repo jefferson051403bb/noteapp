@@ -3,67 +3,64 @@ session_start();
 include 'db_connectors.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+   
     $email = $_POST['email'];
     $password = $_POST['password'];
 
     // Sanitize email input
     $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
-    // Connect to the database using mysqli
+    // Connect to the database using PDO
     $conn = connectDB();
 
-    // Prepare the SQL query
+    // SQL query to select the user based on email
     $sql = "SELECT u_id, name, password, photo FROM users WHERE email = ?";
 
     try {
-        // Prepare the statement
-        if ($stmt = $conn->prepare($sql)) {
+        // Prepare the statement using PDO
+        $stmt = $conn->prepare($sql);
+        
+        // Bind the email parameter
+        $stmt->bindParam(1, $email);
+        
+        // Execute the query
+        $stmt->execute();
+        
+        // Fetch the result as an associative array
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // Bind the parameters (s means string)
-            $stmt->bind_param("s", $email); // Use bind_param with mysqli
-
-            // Execute the query
-            $stmt->execute();
-
-            // Bind result variables
-            $stmt->bind_result($u_id, $name, $hashed_password, $photo);
-
-            // Fetch the results
-            if ($stmt->fetch()) {
-
-                // Verify the password
-                if (password_verify($password, $hashed_password)) {
-
-                    // Store user info in the session
-                    $_SESSION['user_id'] = $u_id;
-                    $_SESSION['user_name'] = $name;
-                    $_SESSION['user_photo'] = $photo; // Store photo in session
-                    
-                    // Redirect to dashboard on success
-                    header("Location: ../dashboard.php?login=true");
-                    exit();
-                } else {
-                    // Incorrect password
-                    header("Location: ../form.php?login=false");
-                    exit();
-                }
+        // Check if user exists
+        if ($user) {
+            // Get the hashed password from the database
+            $hashed_password = $user['password'];
+            
+            // Verify the password
+            if (password_verify($password, $hashed_password)) {
+                
+                // Store user data in session variables
+                $_SESSION['user_id'] = $user['u_id'];
+                $_SESSION['user_name'] = $user['name'];
+                $_SESSION['user_photo'] = $user['photo']; // Assuming photo is stored in the database
+                
+                // Redirect to dashboard after successful login
+                header("Location: ../dashboard.php?login=true");
+                exit();
             } else {
-                // User not found
-                echo "User not found";
+                // Redirect to login form if password verification fails
+                header("Location: ../form.php?login=false");
+                exit();
             }
-
-            // Close the statement
-            $stmt->close();
         } else {
-            // Error preparing the statement
-            echo "Error preparing the statement: " . $conn->error;
+            // If user not found, return an error
+            echo "User not found";
         }
-    } catch (mysqli_sql_exception $e) {
+
+    } catch (PDOException $e) {
+        // Handle errors with PDO
         echo "Error: " . $e->getMessage();
     }
 
     // Close the connection
-    $conn->close();
+    $conn = null;
 }
 ?>
