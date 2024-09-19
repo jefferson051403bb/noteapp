@@ -3,7 +3,7 @@ session_start();
 include 'db_connectors.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-   
+
     $email = $_POST['email'];
     $password = $_POST['password'];
 
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt = $conn->prepare($sql)) {
 
             // Bind the parameters (s means string)
-            $stmt->bind_param("s", $email);
+            $stmt->bind_param("s", $email); // Use bind_param with mysqli
 
             // Execute the query
             $stmt->execute();
@@ -55,6 +55,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Close the statement
             $stmt->close();
+        } else {
+            // Error preparing the statement
+            echo "Error preparing the statement: " . $conn->error;
         }
     } catch (mysqli_sql_exception $e) {
         echo "Error: " . $e->getMessage();
