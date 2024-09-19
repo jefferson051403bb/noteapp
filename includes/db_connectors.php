@@ -7,13 +7,15 @@ function connectDB() {
     $port = getenv('DB_PORT') ?: '3306'; // Default to 3306 if not set
 
     // Establish connection using mysqli
-    $conn = mysqli_connect($host, $username, $password, $dbname, $port);
-
-    // Check connection
-    if (!$conn) {
-        die("Connection failed: " . mysqli_connect_error());
+    try {
+        $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $conn;
+    } catch (PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
     }
 
-    return $conn;
+    return null;
 }
+
 ?>
