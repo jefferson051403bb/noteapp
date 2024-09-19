@@ -2,7 +2,7 @@
 include 'db_connectors.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-   
+
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -24,17 +24,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     try {
         $stmt = $conn->prepare($sql);
-        $stmt->bindParam(1, $name);
-        $stmt->bindParam(2, $email);
-        $stmt->bindParam(3, $password);
-        $stmt->bindParam(4, $photoContent, PDO::PARAM_LOB); // Use PDO::PARAM_LOB for handling large objects
+        $stmt->bind_param("ssss", $name, $email, $password, $photoContent);
 
         $stmt->execute();
 
-        $conn = null;
+        $stmt->close();
+        $conn->close();
+
         header("Location: ../signin.php?action=register_success");
-        exit(); 
-    } catch (PDOException $e) {
+        exit();
+    } catch (mysqli_sql_exception $e) {
         echo "Error: " . $e->getMessage();
     }
 }
