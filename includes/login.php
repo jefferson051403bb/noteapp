@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt = $conn->prepare($sql)) {
 
             // Bind the parameters (s means string)
-            $stmt->bind_param("s", $email);
+            $stmt->bind_param("s", $email); // Correctly using bind_param for MySQLi
 
             // Execute the query
             $stmt->execute();
