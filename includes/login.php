@@ -3,7 +3,7 @@ session_start();
 include 'db_connectors.php'; 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+   
     $email = $_POST['email'];
     $password = $_POST['password'];
 
@@ -14,20 +14,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn = connectDB();
 
     // Prepare the SQL query
-    $sql = "SELECT u_id, name, password FROM users WHERE email = ?";
+    $sql = "SELECT u_id, name, password, photo FROM users WHERE email = ?";
 
     try {
         // Prepare the statement
         if ($stmt = $conn->prepare($sql)) {
 
             // Bind the parameters (s means string)
-            $stmt->bind_param("s", $email); // Correctly using bind_param for MySQLi
+            $stmt->bind_param("s", $email);
 
             // Execute the query
             $stmt->execute();
 
             // Bind result variables
-            $stmt->bind_result($u_id, $name, $hashed_password);
+            $stmt->bind_result($u_id, $name, $hashed_password, $photo);
 
             // Fetch the results
             if ($stmt->fetch()) {
@@ -38,7 +38,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Store user info in the session
                     $_SESSION['user_id'] = $u_id;
                     $_SESSION['user_name'] = $name;
-
+                    $_SESSION['user_photo'] = $photo; // Store photo in session
+                    
                     // Redirect to dashboard on success
                     header("Location: ../dashboard.php?login=true");
                     exit();
