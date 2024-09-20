@@ -1,4 +1,9 @@
 <?php
+// Start output buffering to avoid header issues
+ob_start();
+
+// Start session before any output is sent
+session_start(); 
 
 include 'db_connectors.php'; 
 
@@ -47,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit();
             } else {
                 // Redirect to login form if password verification fails
-                header("Location: ../form.php?login=false");
+                header("Location: ../dashboard.php?login=false");
                 exit();
             }
         } else {
@@ -63,5 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close the connection
     $conn = null;
 }
-?>
 
+// End output buffering
+ob_end_flush();
+?>
